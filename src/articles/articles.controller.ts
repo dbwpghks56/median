@@ -3,7 +3,7 @@ import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/request/create-article.dto';
 import {ApiTags, ApiOkResponse, ApiCreatedResponse} from '@nestjs/swagger'
 import { UpdateArticleDto } from './dto/request/update-article.dto';
-import { ArticleEntity } from './dto/response/articles.entity';
+import { ArticleEntity } from './entities/article.entity';
 
 @Controller('articles')
 @ApiTags('articles')
