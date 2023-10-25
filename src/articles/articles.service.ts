@@ -35,7 +35,10 @@ export class ArticlesService {
       where: {
         id
       }
-    }).catch(() => {throw new NotFoundException(`No.${id} Article is Not Found`)});
+    })
+    // exception filter 에서 prisma errorcode 받아서 자동으로 처리 가능
+    // .catch(() => {throw new NotFoundException(`No.${id} Article is Not Found`)})
+    ;
   
   }
 
