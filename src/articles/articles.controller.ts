@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/request/create-article.dto';
 import {ApiTags, ApiOkResponse, ApiCreatedResponse} from '@nestjs/swagger'
@@ -24,8 +24,9 @@ export class ArticlesController {
 
   @Get(':id')
   @ApiOkResponse({type: ArticleEntity})
-  findOne(@Param('id') id: string) {
-    return this.articlesService.findOne(+id);
+  // ParseIntPipe 를 사용하면 값을 줄 때 + 를 써서 int로 형변환 해줄 필요가 없다.
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.articlesService.findOne(id);
   }
 
   @Get('drafts/ss')
@@ -36,13 +37,13 @@ export class ArticlesController {
 
   @Patch(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateArticleDto: UpdateArticleDto) {
     return this.articlesService.update(+id, updateArticleDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.articlesService.remove(+id);
   }
 }
