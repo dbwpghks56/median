@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArticleDto } from './dto/request/create-article.dto';
 import { UpdateArticleDto } from './dto/request/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -35,7 +35,8 @@ export class ArticlesService {
       where: {
         id
       }
-    });
+    }).catch(() => {throw new NotFoundException(`No.${id} Article is Not Found`)});
+  
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
@@ -44,7 +45,7 @@ export class ArticlesService {
         id
       },
       data: updateArticleDto
-    })
+    }).catch(() => { throw new NotFoundException(`No.${id} Article is Not Found`) });
   }
 
   remove(id: number) {
@@ -52,6 +53,6 @@ export class ArticlesService {
       where: {
         id
       }
-    })
+    }).catch(() => { throw new NotFoundException(`No.${id} Article is Not Found`) });
   }
 }
