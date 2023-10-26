@@ -3,44 +3,44 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from '@prisma/client';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService){}
 
-  create(createUserDto: CreateUserDto): Promise<User> {
-    return this.prisma.user.create({
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+    return new UserEntity(await this.prisma.user.create({
       data: createUserDto
-    });
+    }));
   }
 
-  findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async findAll(): Promise<UserEntity[]> {
+    return (await this.prisma.user.findMany()).map((user) => new UserEntity(user));
   }
 
-  findOne(id: number): Promise<User> {
-    return this.prisma.user.findUniqueOrThrow({
+  async findOne(id: number): Promise<UserEntity> {
+    return new UserEntity(await this.prisma.user.findUniqueOrThrow({
       where: {
         id
       }
-    });
+    }));
   }
 
-  update(id: number, updateUserDto: UpdateUserDto)
-  :Promise<User> {
-    return this.prisma.user.update({
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return new UserEntity(await this.prisma.user.update({
       where: {
         id
       },
       data: updateUserDto
-    });
+    }));
   }
 
-  remove(id: number) {
-    return this.prisma.user.delete({
+  async remove(id: number) {
+    return new UserEntity(await this.prisma.user.delete({
       where: {
         id
       }
-    });
+    }));
   }
 }
