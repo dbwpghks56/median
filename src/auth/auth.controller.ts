@@ -11,7 +11,7 @@ export class AuthController {
 
   @Post('login')
   @ApiOkResponse({type: AuthResponse})
-  async login(@Body() {email, password} : LoginDto) {
-    return await this.authService.login({email, password});
+  async login(@Body() loginDto : LoginDto) {
+    return await this.authService.login(loginDto);
   }
 }
