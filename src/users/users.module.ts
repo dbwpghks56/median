@@ -8,6 +8,9 @@ import { PrismaModule } from 'src/prisma/prisma.module';
   providers: [UsersService],
   imports:[
     PrismaModule
+  ],
+  exports: [
+    UsersService
   ]
 })
 export class UsersModule {}
